@@ -1,34 +1,54 @@
-import { CalculatorType } from "./interfaces";
+import { CalculatorType, Operator } from "./interfaces";
+import { ResultsScreen } from "./screen";
 
 class Calculator implements CalculatorType {
   public currentCalculation: number = 0;
+  public resultsScreen: ResultsScreen;
 
-  public init(a: number) {
-    this.currentCalculation = a;
-    return this.currentCalculation;
+  constructor(resultsScreen: ResultsScreen) {
+    this.resultsScreen = resultsScreen;
   }
-  public clear() {
+
+  public init(a: number): void {
+    this.currentCalculation = a;
+    this.resultsScreen.init(a);
+  }
+  public clear(): void {
     this.currentCalculation = 0;
   }
-  public add(a: number): number {
+
+  public equal(): void {
+    this.updateScreenValues(this.currentCalculation, Operator.EQUAL);
+  }
+
+  private updateScreenValues(a: number, operator: Operator) {
+    this.resultsScreen.update({
+      first: this.currentCalculation,
+      second: a,
+      operator: operator,
+    });
+  }
+
+  public add(a: number): void {
     this.currentCalculation = this.currentCalculation + a;
-    return this.currentCalculation;
+    this.updateScreenValues(a, Operator.ADD);
   }
-  public subtract(a: number): number {
+  public subtract(a: number): void {
     this.currentCalculation = this.currentCalculation - a;
-    return this.currentCalculation;
+    this.updateScreenValues(a, Operator.SUBTRACT);
   }
-  public multiply(a: number): number {
+  public multiply(a: number): void {
     this.currentCalculation = this.currentCalculation * a;
-    return this.currentCalculation;
+    this.updateScreenValues(a, Operator.MULTIPLY);
   }
-  public divide(a: number): number {
+  public divide(a: number): void {
     this.currentCalculation = this.currentCalculation / a;
-    return this.currentCalculation;
+    this.updateScreenValues(a, Operator.DIVIDE);
   }
-  public percentage(): number {
-    this.currentCalculation = this.currentCalculation / 100;
-    return this.currentCalculation;
+  public percentage(): void {
+    const HUNDRED = 100;
+    this.currentCalculation = this.currentCalculation / HUNDRED;
+    this.updateScreenValues(HUNDRED, Operator.PERCENTAGE);
   }
   public ambiguity(a: number): number {
     const isPositive = Math.sign(a) === 1;
@@ -39,4 +59,4 @@ class Calculator implements CalculatorType {
   }
 }
 
-export const calculator = new Calculator();
+export { Calculator };
