@@ -69,6 +69,15 @@ class System {
         this.calculator.update(numAmbiguity);
         return;
       }
+
+      if (key === SpecialKeys.DOT) {
+        const numberWritten = Number(this.numberWritten);
+        const newValue = `${numberWritten}${SpecialKeys.DOT}`;
+        this.numberWritten = newValue;
+        this.resultsScreen.update(newValue);
+        this.calculator.update(Number(newValue) as ValuesAndOperator);
+        return;
+      }
     }
 
     this.resultsScreen.update(String(key));
@@ -77,6 +86,10 @@ class System {
       this.isLastOperation = false;
       const currentOperation = this.calculator.currentCalculation;
       this.numberWritten = `${this.numberWritten}${key}`;
+      if (!Number.isInteger(Number(this.numberWritten))) {
+        this.resultsScreen.current = this.numberWritten;
+      }
+
       if (currentOperation !== 0) {
         this.calculator.update(Number(this.numberWritten) as ValuesAndOperator);
       }
