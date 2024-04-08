@@ -55,10 +55,20 @@ class System {
     }
 
     if (Object.values(SpecialKeys).includes(key as SpecialKeys)) {
-      this.numberWritten = "";
-      this.calculator.clear();
-      this.resultsScreen.clearCurrentOperation();
-      return;
+      if (key === SpecialKeys.CLEAR) {
+        this.numberWritten = "";
+        this.calculator.clear();
+        this.resultsScreen.clearCurrentOperation();
+        return;
+      }
+
+      if (key === SpecialKeys.AMBIGUITY) {
+        const numAmbiguity = this.calculator.ambiguity(numberWritten);
+        this.numberWritten = String(numAmbiguity);
+        this.resultsScreen.current = String(numAmbiguity);
+        this.calculator.update(numAmbiguity);
+        return;
+      }
     }
 
     this.resultsScreen.update(String(key));
@@ -77,7 +87,6 @@ class System {
       const numberWritten = Number(this.numberWritten);
       this.calculator.update(numberWritten as ValuesAndOperator);
       this.calculator.update(key as ValuesAndOperator);
-      const currentOperation = this.calculator.currentCalculation;
       this.numberWritten = "";
     }
   }

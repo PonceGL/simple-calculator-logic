@@ -16,9 +16,10 @@ class Calculator implements CalculatorType {
 
   public update(a: ValuesAndOperator): void {
     if (
-      typeof this.currentCalculations[this.currentCalculations.length - 1] ===
+      (typeof this.currentCalculations[this.currentCalculations.length - 1] ===
         "number" &&
-      typeof a === "number"
+        typeof a === "number") ||
+      (typeof a === "number" && a < 0)
     ) {
       this.currentCalculations.pop();
     }

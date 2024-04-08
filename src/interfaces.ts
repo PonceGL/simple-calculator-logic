@@ -17,7 +17,6 @@ export enum Operator {
   MULTIPLY = "x",
   DIVIDE = "÷",
   PERCENTAGE = "%",
-  AMBIGUITY = "+/-",
   EQUAL = "=",
 }
 
@@ -36,6 +35,7 @@ export enum SpecialKeys {
   CLEAR = "clear",
   DELETE = "del",
   TRASH = "TRASH",
+  AMBIGUITY = "+/-",
   DOT = ".",
 }
 

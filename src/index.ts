@@ -66,6 +66,22 @@ import { resultsScreen } from "./screen";
   console.log("Calculator");
   console.log("final result => ", resultsScreen.current);
   console.log(resultsScreen.history);
+  keyboard.pressKey(SpecialKeys.CLEAR);
+  console.log("Calculator");
+  console.log("final result => ", resultsScreen.current);
+  console.log(resultsScreen.history);
+  keyboard.pressKey(Numbers.ONE);
+  keyboard.pressKey(Numbers.ZERO);
+  keyboard.pressKey(SpecialKeys.AMBIGUITY);
+  keyboard.pressKey(Operator.MULTIPLY);
+  keyboard.pressKey(Numbers.TWO);
+  console.log("Calculator");
+  console.log("final result => ", resultsScreen.current);
+  console.log(resultsScreen.history);
+  keyboard.pressKey(Operator.EQUAL);
+  console.log("Calculator");
+  console.log("final result => ", resultsScreen.current);
+  console.log(resultsScreen.history);
 
   // Percentage
   //   calculator.init(48);
