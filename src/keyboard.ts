@@ -1,21 +1,16 @@
-import { Calculator } from "./calculator";
-import { ResultsScreen } from "./screen";
+import { KeyboardKeys } from "./interfaces";
+import { System, system } from "./system";
 
 class CalculatorKeyboard {
-  public calculator: Calculator;
+  public system: System;
 
-  constructor(calculator: Calculator) {
-    this.calculator = calculator;
+  constructor(system: System) {
+    this.system = system;
   }
 
-  public pressKey(key: string | number): void {
-    const currentValue = this.calculator.currentCalculation;
-    if (typeof key === "number") {
-      if (key === 0 && currentValue === 0) return;
-    }
+  public pressKey(key: KeyboardKeys): void {
+    this.system.input(key);
   }
 }
 
-const resultsScreen: ResultsScreen = new ResultsScreen();
-const calculator = new Calculator(resultsScreen);
-export const keyboard = new CalculatorKeyboard(calculator);
+export const keyboard = new CalculatorKeyboard(system);

@@ -1,29 +1,29 @@
-import { Operator, ScreenType, UpdateSreenValues } from "./interfaces";
+import { ScreenType } from "./interfaces";
 
 class ResultsScreen implements ScreenType {
+  private static instance: ResultsScreen;
   public history: string[] = [];
   public current: string;
+
   constructor() {
-    this.current = "";
+    this.current = "0";
   }
 
-  public init(a: number): string {
-    this.current = String(a);
-    return this.current;
-  }
-
-  public update({ first, second, operator }: UpdateSreenValues): void {
-    if (operator === Operator.EQUAL) {
-      const finalLabel = `${this.current}${operator}${second}`;
-      this.history = [...this.history, finalLabel];
-      this.current = String(second);
-    } else {
-      const label =
-        this.current !== ""
-          ? `${this.current}${operator}${second}`
-          : `${first}${operator}${second}`;
-      this.current = label;
+  public static getInstance(): ResultsScreen {
+    if (!ResultsScreen.instance) {
+      ResultsScreen.instance = new ResultsScreen();
     }
+
+    return ResultsScreen.instance;
+  }
+
+  public updateHistory(value: string): void {
+    this.history = [...this.history, value];
+  }
+
+  public update(value: string): void {
+    const label = this.current === "0" ? `${value}` : `${this.current}${value}`;
+    this.current = label;
   }
 
   clearCurrentOperation(): void {
@@ -36,3 +36,4 @@ class ResultsScreen implements ScreenType {
 }
 
 export { ResultsScreen };
+export const resultsScreen = ResultsScreen.getInstance();

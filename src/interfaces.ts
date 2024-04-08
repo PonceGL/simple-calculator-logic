@@ -14,7 +14,7 @@ export enum Numbers {
 export enum Operator {
   ADD = "+",
   SUBTRACT = "-",
-  MULTIPLY = "×",
+  MULTIPLY = "x",
   DIVIDE = "÷",
   PERCENTAGE = "%",
   AMBIGUITY = "+/-",
@@ -22,27 +22,52 @@ export enum Operator {
   //   AMBIGUITY = "±",
 }
 
+export type ValuesAndOperator = Numbers | Operator;
+
+export type TokenOperator =
+  | Operator.ADD
+  | Operator.SUBTRACT
+  | Operator.MULTIPLY
+  | Operator.DIVIDE;
+
+export type Token = TokenOperator | number;
+
+export enum SpecialKeys {
+  CLEAR = "C",
+  TRASH = "TRASH",
+  DOT = ".",
+}
+
+export type KeyboardKeys = Numbers | Operator | SpecialKeys;
+
 export interface CalculatorType {
   clear(): void;
   init(a: number): void;
-  add(a: number): void;
-  subtract(a: number): void;
-  multiply(a: number): void;
-  divide(a: number): void;
+  update(a: TokenOperator): void;
+  add(a: number, b: number): number;
+  subtract(a: number, b: number): number;
+  multiply(a: number, b: number): number;
+  divide(a: number, b: number): number;
+  ambiguity(a: number, b: number): number;
   percentage(): void;
-  ambiguity(a: number): number;
-  equal(): void;
 }
 
 export interface UpdateSreenValues {
-  first: number;
-  second: number;
+  first: string;
+  second: string;
   operator: Operator;
 }
 
 export interface ScreenType {
-  init(a: number): void;
-  update({ first, second, operator }: UpdateSreenValues): void;
+  updateHistory(value: string): void;
+  update(value: string): void;
   clearCurrentOperation(): void;
   clearHistory(): void;
+}
+
+export enum OrderOfOperations {
+  "PARENTHESES",
+  "EXPONENTS",
+  "MULTIPLICATIONS_AND_DIVISIONS",
+  "ADDITION_AND_SUBTRACTION",
 }
