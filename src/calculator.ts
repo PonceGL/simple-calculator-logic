@@ -22,6 +22,7 @@ class Calculator implements CalculatorType {
     ) {
       this.currentCalculations.pop();
     }
+
     this.currentCalculations = [...this.currentCalculations, a];
     if (this.includesOperator(this.currentCalculations)) {
       this.calculate();
@@ -29,15 +30,24 @@ class Calculator implements CalculatorType {
   }
   public clear(): void {
     this.currentCalculation = 0;
+    this.currentCalculations = [];
   }
 
   private calculate() {
-    const lastValueIsOperator =
-      typeof this.currentCalculations[this.currentCalculations.length - 1] ===
-      "string";
-    if (this.currentCalculations.length >= 3 && !lastValueIsOperator) {
-      const postfix = this.infixToPostfix(this.currentCalculations);
+    const lastValue =
+      this.currentCalculations[this.currentCalculations.length - 1];
+    const lastValueIsOperator = typeof lastValue === "string";
+    if (
+      this.currentCalculations.length >= 3 ||
+      lastValue === Operator.PERCENTAGE ||
+      (this.currentCalculations.length >= 3 && !lastValueIsOperator)
+    ) {
+      const postfix = this.infixToPostfix(this.currentCalculations.filter(token => token !== Operator.PERCENTAGE));
       const result = this.evaluatePostfix(postfix);
+      if (lastValue === Operator.PERCENTAGE) {
+        this.currentCalculation = this.percentage(result)
+        return;
+      }
       this.currentCalculation = result;
       return;
     }
@@ -58,6 +68,7 @@ class Calculator implements CalculatorType {
       "-": 1,
       x: 2,
       "÷": 2,
+      "%": 3,
     };
 
     for (const token of tokens) {
@@ -103,6 +114,8 @@ class Calculator implements CalculatorType {
           case "÷":
             stack.push(this.divide(left, right));
             break;
+          case "%":
+            break;
         }
       }
     }
@@ -122,10 +135,8 @@ class Calculator implements CalculatorType {
   public divide(a: number, b: number): number {
     return a / b;
   }
-  public percentage(): void {
-    const HUNDRED = 100;
-    this.currentCalculation = this.currentCalculation / HUNDRED;
-    // this.updateScreenValues(HUNDRED, Operator.PERCENTAGE);
+  public percentage(a: number): number {
+    return a / 100;
   }
   public ambiguity(a: number): number {
     const isPositive = Math.sign(a) === 1;

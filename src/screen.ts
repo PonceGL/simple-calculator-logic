@@ -27,7 +27,7 @@ class ResultsScreen implements ScreenType {
   }
 
   clearCurrentOperation(): void {
-    this.current = "";
+    this.current = "0";
   }
 
   clearHistory(): void {

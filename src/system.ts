@@ -12,6 +12,7 @@ class System {
   public calculator: Calculator;
   public resultsScreen: ResultsScreen;
   private numberWritten: string = "";
+  private isLastOperation: Boolean = false;
 
   constructor(calculator: Calculator, resultsScreen: ResultsScreen) {
     this.resultsScreen = resultsScreen;
@@ -27,25 +28,43 @@ class System {
     }
 
     if (key === Operator.EQUAL) {
-      const currentOperation = this.calculator.currentCalculation;
-      this.resultsScreen.updateHistory(
-        `${this.resultsScreen.current}${key}${currentOperation}`
-      );
-      this.resultsScreen.clearCurrentOperation();
-      this.resultsScreen.update(String(currentOperation));
+      if (!this.isLastOperation) {
+        const currentOperation = this.calculator.currentCalculation;
+        this.resultsScreen.updateHistory(
+          `${this.resultsScreen.current}${key}${currentOperation}`
+        );
+
+        const history = this.resultsScreen.history;
+        this.resultsScreen.clearCurrentOperation();
+        this.resultsScreen.update(String(currentOperation));
+
+        if (
+          history.length > 1 &&
+          history[history.length - 1].includes(Operator.EQUAL) &&
+          history[history.length - 1] ===
+            `${this.resultsScreen.current}${key}${this.resultsScreen.current}`
+        ) {
+          this.numberWritten = "";
+          this.calculator.clear();
+          this.resultsScreen.clearCurrentOperation();
+          this.isLastOperation = true;
+        }
+      }
+
       return;
     }
 
     if (Object.values(SpecialKeys).includes(key as SpecialKeys)) {
-      console.log("====================================");
-      console.log("SpecialKeys");
-      console.log("====================================");
+      this.numberWritten = "";
+      this.calculator.clear();
+      this.resultsScreen.clearCurrentOperation();
       return;
     }
 
     this.resultsScreen.update(String(key));
 
     if (Object.values(Numbers).includes(key)) {
+      this.isLastOperation = false;
       const currentOperation = this.calculator.currentCalculation;
       this.numberWritten = `${this.numberWritten}${key}`;
       if (currentOperation !== 0) {
@@ -60,8 +79,6 @@ class System {
       this.calculator.update(key as ValuesAndOperator);
       const currentOperation = this.calculator.currentCalculation;
       this.numberWritten = "";
-      if (key === 0 && currentOperation === 0) return;
-      return;
     }
   }
 }

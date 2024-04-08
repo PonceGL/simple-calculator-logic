@@ -19,12 +19,12 @@ export enum Operator {
   PERCENTAGE = "%",
   AMBIGUITY = "+/-",
   EQUAL = "=",
-  //   AMBIGUITY = "±",
 }
 
 export type ValuesAndOperator = Numbers | Operator;
 
 export type TokenOperator =
+  | Operator.PERCENTAGE
   | Operator.ADD
   | Operator.SUBTRACT
   | Operator.MULTIPLY
@@ -33,7 +33,8 @@ export type TokenOperator =
 export type Token = TokenOperator | number;
 
 export enum SpecialKeys {
-  CLEAR = "C",
+  CLEAR = "clear",
+  DELETE = "del",
   TRASH = "TRASH",
   DOT = ".",
 }
@@ -49,7 +50,7 @@ export interface CalculatorType {
   multiply(a: number, b: number): number;
   divide(a: number, b: number): number;
   ambiguity(a: number, b: number): number;
-  percentage(): void;
+  percentage(a: number): number;
 }
 
 export interface UpdateSreenValues {
