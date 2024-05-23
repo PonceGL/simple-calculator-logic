@@ -3,10 +3,10 @@ import { ScreenType } from "./interfaces";
 class ResultsScreen implements ScreenType {
   private static instance: ResultsScreen;
   public history: string[] = [];
-  public current: string;
+  public result: string;
 
   constructor() {
-    this.current = "0";
+    this.result = "0";
   }
 
   public static getInstance(): ResultsScreen {
@@ -22,12 +22,12 @@ class ResultsScreen implements ScreenType {
   }
 
   public update(value: string): void {
-    const label = this.current === "0" ? `${value}` : `${this.current}${value}`;
-    this.current = label;
+    const label = this.result === "0" ? `${value}` : `${this.result}${value}`;
+    this.result = label;
   }
 
   clearCurrentOperation(): void {
-    this.current = "0";
+    this.result = "0";
   }
 
   clearHistory(): void {
@@ -36,4 +36,4 @@ class ResultsScreen implements ScreenType {
 }
 
 export { ResultsScreen };
-export const resultsScreen = ResultsScreen.getInstance();
+export const Screen = ResultsScreen.getInstance();
