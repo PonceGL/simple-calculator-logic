@@ -1,5 +1,5 @@
-import { KeyboardKeys } from "./interfaces";
-import { System, system } from "./system";
+import { KeyboardKeys } from './interfaces';
+import { System, system } from './system';
 
 class CalculatorKeyboard {
   public system: System;

@@ -1,18 +1,18 @@
-import { Calculator } from "./calculator";
+import { Calculator } from './calculator';
 import {
   KeyboardKeys,
   Numbers,
   Operator,
   SpecialKeys,
   ValuesAndOperator,
-} from "./interfaces";
-import { ResultsScreen, Screen } from "./screen";
+} from './interfaces';
+import { ResultsScreen, Screen } from './screen';
 
 class System {
   public calculator: Calculator;
   public resultsScreen: ResultsScreen;
-  private numberWritten: string = "";
-  private isLastOperation: Boolean = false;
+  private numberWritten: string = '';
+  private isLastOperation: boolean = false;
 
   constructor(calculator: Calculator, resultsScreen: ResultsScreen) {
     this.resultsScreen = resultsScreen;
@@ -66,7 +66,7 @@ class System {
     const numberWritten = Number(this.numberWritten);
     this.calculator.update(numberWritten as ValuesAndOperator);
     this.calculator.update(key as ValuesAndOperator);
-    this.numberWritten = "";
+    this.numberWritten = '';
   }
 
   private handleEqual(key: KeyboardKeys) {
@@ -87,7 +87,7 @@ class System {
         history[historyList - 1] ===
           `${this.resultsScreen.result}${key}${this.resultsScreen.result}`
       ) {
-        this.numberWritten = "";
+        this.numberWritten = '';
         this.calculator.clear();
         this.resultsScreen.clearCurrentOperation();
         this.isLastOperation = true;
@@ -121,7 +121,7 @@ class System {
   }
 
   private handleClear() {
-    this.numberWritten = "";
+    this.numberWritten = '';
     this.calculator.clear();
     this.resultsScreen.clearCurrentOperation();
   }

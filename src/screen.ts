@@ -1,4 +1,4 @@
-import { ScreenType } from "./interfaces";
+import { ScreenType } from './interfaces';
 
 class ResultsScreen implements ScreenType {
   private static instance: ResultsScreen;
@@ -6,7 +6,7 @@ class ResultsScreen implements ScreenType {
   public result: string;
 
   constructor() {
-    this.result = "0";
+    this.result = '0';
   }
 
   public static getInstance(): ResultsScreen {
@@ -22,12 +22,12 @@ class ResultsScreen implements ScreenType {
   }
 
   public update(value: string): void {
-    const label = this.result === "0" ? `${value}` : `${this.result}${value}`;
+    const label = this.result === '0' ? `${value}` : `${this.result}${value}`;
     this.result = label;
   }
 
   clearCurrentOperation(): void {
-    this.result = "0";
+    this.result = '0';
   }
 
   clearHistory(): void {

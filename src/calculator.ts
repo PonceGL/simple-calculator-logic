@@ -4,7 +4,7 @@ import {
   Token,
   TokenOperator,
   ValuesAndOperator,
-} from "./interfaces";
+} from './interfaces';
 
 class Calculator implements CalculatorType {
   public currentCalculation: number = 0;
@@ -17,9 +17,9 @@ class Calculator implements CalculatorType {
   public update(a: ValuesAndOperator): void {
     if (
       (typeof this.currentCalculations[this.currentCalculations.length - 1] ===
-        "number" &&
-        typeof a === "number") ||
-      (typeof a === "number" && a < 0)
+        'number' &&
+        typeof a === 'number') ||
+      (typeof a === 'number' && a < 0)
     ) {
       this.currentCalculations.pop();
     }
@@ -37,16 +37,18 @@ class Calculator implements CalculatorType {
   private calculate() {
     const lastValue =
       this.currentCalculations[this.currentCalculations.length - 1];
-    const lastValueIsOperator = typeof lastValue === "string";
+    const lastValueIsOperator = typeof lastValue === 'string';
     if (
       this.currentCalculations.length >= 3 ||
       lastValue === Operator.PERCENTAGE ||
       (this.currentCalculations.length >= 3 && !lastValueIsOperator)
     ) {
-      const postfix = this.infixToPostfix(this.currentCalculations.filter(token => token !== Operator.PERCENTAGE));
+      const postfix = this.infixToPostfix(
+        this.currentCalculations.filter(token => token !== Operator.PERCENTAGE)
+      );
       const result = this.evaluatePostfix(postfix);
       if (lastValue === Operator.PERCENTAGE) {
-        this.currentCalculation = this.percentage(result)
+        this.currentCalculation = this.percentage(result);
         return;
       }
       this.currentCalculation = result;
@@ -56,7 +58,7 @@ class Calculator implements CalculatorType {
   }
 
   private includesOperator(array: ValuesAndOperator[]): boolean {
-    return array.some((item) =>
+    return array.some(item =>
       Object.values(Operator).includes(item as Operator)
     );
   }
@@ -65,15 +67,15 @@ class Calculator implements CalculatorType {
     const output: Token[] = [];
     const operators: TokenOperator[] = [];
     const precedence: { [key in TokenOperator]: number } = {
-      "+": 1,
-      "-": 1,
-      x: 2,
-      "÷": 2,
-      "%": 3,
+      '+': 1,
+      '-': 1,
+      'x': 2,
+      '÷': 2,
+      '%': 3,
     };
 
     for (const token of tokens) {
-      if (typeof token === "number") {
+      if (typeof token === 'number') {
         output.push(token);
       } else {
         while (
@@ -97,25 +99,25 @@ class Calculator implements CalculatorType {
     const stack: number[] = [];
 
     for (const token of tokens) {
-      if (typeof token === "number") {
+      if (typeof token === 'number') {
         stack.push(token);
       } else {
         const right = stack.pop() as number;
         const left = stack.pop() as number;
         switch (token) {
-          case "+":
+          case '+':
             stack.push(this.add(left, right));
             break;
-          case "-":
+          case '-':
             stack.push(this.subtract(left, right));
             break;
-          case "x":
+          case 'x':
             stack.push(this.multiply(left, right));
             break;
-          case "÷":
+          case '÷':
             stack.push(this.divide(left, right));
             break;
-          case "%":
+          case '%':
             break;
         }
       }

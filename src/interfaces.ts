@@ -12,12 +12,12 @@ export enum Numbers {
 }
 
 export enum Operator {
-  ADD = "+",
-  SUBTRACT = "-",
-  MULTIPLY = "x",
-  DIVIDE = "÷",
-  PERCENTAGE = "%",
-  EQUAL = "=",
+  ADD = '+',
+  SUBTRACT = '-',
+  MULTIPLY = 'x',
+  DIVIDE = '÷',
+  PERCENTAGE = '%',
+  EQUAL = '=',
 }
 
 export type ValuesAndOperator = Numbers | Operator;
@@ -32,11 +32,11 @@ export type TokenOperator =
 export type Token = TokenOperator | number;
 
 export enum SpecialKeys {
-  CLEAR = "clear",
-  DELETE = "del",
-  TRASH = "TRASH",
-  AMBIGUITY = "+/-",
-  DOT = ".",
+  CLEAR = 'clear',
+  DELETE = 'del',
+  TRASH = 'TRASH',
+  AMBIGUITY = '+/-',
+  DOT = '.',
 }
 
 export type KeyboardKeys = Numbers | Operator | SpecialKeys;
@@ -67,8 +67,8 @@ export interface ScreenType {
 }
 
 export enum OrderOfOperations {
-  "PARENTHESES",
-  "EXPONENTS",
-  "MULTIPLICATIONS_AND_DIVISIONS",
-  "ADDITION_AND_SUBTRACTION",
+  'PARENTHESES',
+  'EXPONENTS',
+  'MULTIPLICATIONS_AND_DIVISIONS',
+  'ADDITION_AND_SUBTRACTION',
 }
