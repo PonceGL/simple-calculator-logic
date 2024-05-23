@@ -101,6 +101,7 @@ web_modules/
 .node_repl_history
 
 # Output of 'npm pack'
+packs
 *.tgz
 
 # Yarn Integrity file

@@ -1,19 +1,27 @@
 {
-  "name": "calculator",
+  "name": "@poncegl/calculator",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "source": "src/index",
+  "files": [
+    "src",
+    "dist"
+  ],
   "scripts": {
-    "build": "tsc --project tsconfig.json",
-    "dev": "nodemon src/index.ts",
-    "start": "node dist/index.js"
+    "build": "yarn clean && tsc --project tsconfig.json",
+    "dev": "nodemon example/index.ts",
+    "start": "node dist/index.js",
+    "clean": "rm -rf ./dist"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^3.1.0",
-    "ts-node": "^10.9.2",
+    "ts-node": "10.6.0",
     "typescript": "^5.4.4"
   }
 }
