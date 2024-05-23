@@ -113,5 +113,5 @@
   "ts-node": {
     "esm": true
   },
-  "exclude": ["node_modules", "example", "./*.ts", "__test__"]
+  "exclude": ["node_modules", "example", "./*.ts"]
 }
