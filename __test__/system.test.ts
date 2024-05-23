@@ -4,13 +4,9 @@ import { ResultsScreen } from "../src/screen";
 import { System } from "../src/system";
 
 describe("System", () => {
-  let calculator: Calculator;
-  let resultsScreen: ResultsScreen;
-  let system: System;
-
-  calculator = new Calculator();
-  resultsScreen = new ResultsScreen();
-  system = new System(calculator, resultsScreen);
+  const calculator = new Calculator();
+  const resultsScreen = new ResultsScreen();
+  const system = new System(calculator, resultsScreen);
 
   it("should update the results screen when a number key is pressed", () => {
     system.input(Numbers.ONE);
