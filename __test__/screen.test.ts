@@ -5,7 +5,7 @@ describe('ResultsScreen', () => {
 
   it('should initialize with default values', () => {
     expect(resultsScreen.history).toEqual([]);
-    expect(resultsScreen.result).toBe('0');
+    expect(resultsScreen.result).toBe('');
   });
 
   it('should update the history correctly', () => {
@@ -31,7 +31,7 @@ describe('ResultsScreen', () => {
     resultsScreen.update('123');
     resultsScreen.clearCurrentOperation();
 
-    expect(resultsScreen.result).toBe('0');
+    expect(resultsScreen.result).toBe('');
   });
 
   it('should clear the history', () => {
