@@ -1,12 +1,11 @@
 import {
-  CalculatorType,
   Operator,
   Token,
   TokenOperator,
   ValuesAndOperator,
 } from './interfaces';
 
-class Calculator implements CalculatorType {
+class Calculator {
   public currentCalculation: number = 0;
   public currentCalculations: ValuesAndOperator[] = [];
 
@@ -21,7 +20,8 @@ class Calculator implements CalculatorType {
         typeof a === 'number') ||
       (typeof a === 'number' && a < 0)
     ) {
-      this.currentCalculations.pop();
+      // this.currentCalculations.pop();
+      this.currentCalculations = [...this.currentCalculations.slice(0, -1)];
     }
 
     this.currentCalculations = [...this.currentCalculations, a];
@@ -38,6 +38,7 @@ class Calculator implements CalculatorType {
     const lastValue =
       this.currentCalculations[this.currentCalculations.length - 1];
     const lastValueIsOperator = typeof lastValue === 'string';
+
     if (
       this.currentCalculations.length >= 3 ||
       lastValue === Operator.PERCENTAGE ||
@@ -126,19 +127,19 @@ class Calculator implements CalculatorType {
     return stack.pop() as number;
   }
 
-  public add(a: number, b: number): number {
+  private add(a: number, b: number): number {
     return a + b;
   }
-  public subtract(a: number, b: number): number {
+  private subtract(a: number, b: number): number {
     return a - b;
   }
-  public multiply(a: number, b: number): number {
+  private multiply(a: number, b: number): number {
     return a * b;
   }
-  public divide(a: number, b: number): number {
+  private divide(a: number, b: number): number {
     return a / b;
   }
-  public percentage(a: number): number {
+  private percentage(a: number): number {
     return a / 100;
   }
   public ambiguity(a: number): number {

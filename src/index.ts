@@ -1,3 +1,9 @@
-export { Numbers, Operator, SpecialKeys } from './interfaces';
-export { keyboard } from './keyboard';
-export { Screen } from './screen';
+export {
+  Numbers,
+  Operator,
+  SpecialKeys,
+  ObserverProps,
+  KeyboardKeys,
+  ObserverFunction,
+} from './interfaces';
+export { Calculator } from './keyboard';

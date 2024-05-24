@@ -38,7 +38,7 @@ describe('System', () => {
     system.input(Operator.ADD);
     system.input(Numbers.THREE);
     system.input(SpecialKeys.CLEAR);
-    expect(resultsScreen.result).toEqual('0');
+    expect(resultsScreen.result).toEqual('');
     expect(calculator.currentCalculation).toEqual(0);
   });
 
@@ -65,7 +65,7 @@ describe('System', () => {
     system.input(Operator.EQUAL);
 
     expect(resultsScreen.result).toEqual('74');
-    expect(calculator.currentCalculation).toEqual(74);
+    expect(calculator.currentCalculation).toEqual(0);
   });
 
   it('calculator clear should be called when the equal key is pressed', () => {

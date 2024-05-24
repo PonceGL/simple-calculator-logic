@@ -1,104 +1,180 @@
-import { keyboard, Numbers, Operator, Screen, SpecialKeys } from '../src';
+import {
+  Calculator,
+  Numbers,
+  ObserverProps,
+  Operator,
+  SpecialKeys,
+} from '../src';
+
+function observerExampleFunction({ history, result }: ObserverProps) {
+  console.log('====================================');
+  console.log('history');
+  console.log(history);
+  console.log('result');
+  console.log(result);
+  console.log('====================================');
+}
 
 (function () {
-  keyboard.pressKey(Numbers.FOUR);
-  keyboard.pressKey(Numbers.EIGHT);
-  keyboard.pressKey(Operator.ADD);
-  keyboard.pressKey(Numbers.FIVE);
-  keyboard.pressKey(Numbers.TWO);
-  keyboard.pressKey(Operator.MULTIPLY);
-  keyboard.pressKey(Numbers.TWO);
-  keyboard.pressKey(Operator.DIVIDE);
-  keyboard.pressKey(Numbers.FOUR);
-  keyboard.pressKey(Operator.SUBTRACT);
-  keyboard.pressKey(Numbers.TWO);
-  console.log('Calculator');
-  console.log(Screen.result);
-  keyboard.pressKey(Operator.EQUAL);
-  console.log('final result => ', Screen.result);
-  console.log(Screen.result);
-  keyboard.pressKey(Operator.ADD);
-  keyboard.pressKey(Numbers.TWO);
-  console.log('Calculator');
-  console.log(Screen.result);
-  keyboard.pressKey(Operator.EQUAL);
-  console.log('final result => ', Screen.result);
-  console.log(Screen.history);
-  keyboard.pressKey(SpecialKeys.CLEAR);
-  keyboard.pressKey(Numbers.FIVE);
-  keyboard.pressKey(Operator.ADD);
-  keyboard.pressKey(Numbers.FIVE);
-  keyboard.pressKey(Operator.EQUAL);
-  console.log('Calculator');
-  console.log('final result => ', Screen.result);
-  console.log(Screen.history);
-  keyboard.pressKey(Operator.EQUAL);
-  keyboard.pressKey(Operator.EQUAL);
-  keyboard.pressKey(Operator.EQUAL);
-  console.log('final result => ', Screen.result);
-  console.log(Screen.history);
-  keyboard.pressKey(Numbers.ONE);
-  keyboard.pressKey(Numbers.ZERO);
-  console.log(Screen.result);
-  keyboard.pressKey(Operator.EQUAL);
-  keyboard.pressKey(Operator.DIVIDE);
-  keyboard.pressKey(Numbers.THREE);
-  console.log('Calculator');
-  console.log('final result => ', Screen.result);
-  keyboard.pressKey(Operator.EQUAL);
-  console.log('final result => ', Screen.result);
-  console.log(Screen.history);
-  keyboard.pressKey(SpecialKeys.CLEAR);
-  console.log('Calculator');
-  console.log('final result => ', Screen.result);
-  console.log(Screen.history);
-  keyboard.pressKey(Numbers.FOUR);
-  keyboard.pressKey(Numbers.EIGHT);
-  keyboard.pressKey(Operator.MULTIPLY);
-  keyboard.pressKey(Numbers.ONE);
-  keyboard.pressKey(Numbers.FIVE);
-  keyboard.pressKey(Numbers.ZERO);
-  keyboard.pressKey(Numbers.ZERO);
-  keyboard.pressKey(Operator.PERCENTAGE);
-  keyboard.pressKey(Operator.EQUAL);
-  console.log('Calculator');
-  console.log('final result => ', Screen.result);
-  console.log(Screen.history);
-  keyboard.pressKey(SpecialKeys.CLEAR);
-  console.log('Calculator');
-  console.log('final result => ', Screen.result);
-  console.log(Screen.history);
-  keyboard.pressKey(Numbers.ONE);
-  keyboard.pressKey(Numbers.ZERO);
-  keyboard.pressKey(SpecialKeys.AMBIGUITY);
-  keyboard.pressKey(Operator.MULTIPLY);
-  keyboard.pressKey(Numbers.TWO);
-  console.log('Calculator');
-  console.log('final result => ', Screen.result);
-  console.log(Screen.history);
-  keyboard.pressKey(Operator.EQUAL);
-  console.log('Calculator');
-  console.log('final result => ', Screen.result);
-  console.log(Screen.history);
-  keyboard.pressKey(SpecialKeys.CLEAR);
-  keyboard.pressKey(Numbers.ONE);
-  keyboard.pressKey(SpecialKeys.DOT);
-  keyboard.pressKey(Numbers.FIVE);
-  keyboard.pressKey(Operator.ADD);
-  keyboard.pressKey(Numbers.THREE);
-  keyboard.pressKey(Operator.EQUAL);
-  console.log('Calculator');
-  console.log('final result => ', Screen.result);
-  console.log(Screen.history);
-  keyboard.pressKey(SpecialKeys.CLEAR);
-  keyboard.pressKey(Numbers.ONE);
-  keyboard.pressKey(Numbers.ZERO);
-  keyboard.pressKey(SpecialKeys.DOT);
-  keyboard.pressKey(Numbers.FIVE);
-  keyboard.pressKey(Operator.MULTIPLY);
-  keyboard.pressKey(Numbers.THREE);
-  keyboard.pressKey(Operator.EQUAL);
-  console.log('Calculator');
-  console.log('final result => ', Screen.result);
-  console.log(Screen.history);
+  Calculator.setObserver(observerExampleFunction);
+
+  // Calculator.pressKey(Numbers.TWO);
+  // Calculator.pressKey(Operator.ADD);
+  // Calculator.pressKey(Numbers.THREE);
+  // Calculator.pressKey(SpecialKeys.CLEAR);
+
+  // Calculator.pressKey(Numbers.FOUR);
+  // Calculator.pressKey(Numbers.EIGHT);
+  // Calculator.pressKey(Operator.ADD);
+  // Calculator.pressKey(Numbers.FIVE);
+  // Calculator.pressKey(Numbers.TWO);
+  // Calculator.pressKey(Operator.MULTIPLY);
+  // Calculator.pressKey(Numbers.TWO);
+  // Calculator.pressKey(Operator.DIVIDE);
+  // Calculator.pressKey(Numbers.FOUR);
+  // Calculator.pressKey(Operator.SUBTRACT);
+  // Calculator.pressKey(Numbers.TWO);
+  // Calculator.pressKey(Operator.EQUAL);
+  // Calculator.pressKey(Operator.ADD);
+  // Calculator.pressKey(Numbers.TWO);
+  // Calculator.pressKey(Operator.EQUAL);
+
+  Calculator.pressKey(SpecialKeys.CLEAR);
+  Calculator.pressKey(Numbers.ZERO);
+  Calculator.pressKey(Numbers.ONE);
+  Calculator.pressKey(SpecialKeys.DOT);
+  Calculator.pressKey(Numbers.FIVE);
+  Calculator.pressKey(Operator.ADD);
+  Calculator.pressKey(Numbers.THREE);
+  Calculator.pressKey(Operator.EQUAL);
+
+  // Calculator.pressKey(Numbers.FIVE);
+  // Calculator.pressKey(Operator.ADD);
+  // Calculator.pressKey(Numbers.FIVE);
+  // Calculator.pressKey(Operator.EQUAL);
+  // Calculator.pressKey(Operator.MULTIPLY);
+  // Calculator.pressKey(Numbers.TWO);
+  // Calculator.pressKey(Operator.EQUAL);
+  // Calculator.pressKey(Operator.DIVIDE);
+  // Calculator.pressKey(Numbers.THREE);
+  // Calculator.pressKey(Operator.EQUAL);
+  // Calculator.pressKey(SpecialKeys.CLEAR);
+
+  // Calculator.pressKey(Numbers.FOUR);
+  // Calculator.pressKey(Numbers.EIGHT);
+  // Calculator.pressKey(Operator.ADD);
+  // Calculator.pressKey(Numbers.FIVE);
+  // Calculator.pressKey(Numbers.TWO);
+  // Calculator.pressKey(Operator.MULTIPLY);
+  // Calculator.pressKey(Numbers.TWO);
+  // Calculator.pressKey(Operator.DIVIDE);
+  // Calculator.pressKey(Numbers.FOUR);
+  // Calculator.pressKey(Operator.SUBTRACT);
+  // Calculator.pressKey(Numbers.TWO);
+
+  // Calculator.pressKey(Operator.EQUAL);
+
+  // Calculator.pressKey(Operator.ADD);
+  // Calculator.pressKey(Numbers.TWO);
+
+  // Calculator.pressKey(Operator.EQUAL);
+
+  // Calculator.pressKey(SpecialKeys.CLEAR);
+  // Calculator.pressKey(Numbers.FIVE);
+  // Calculator.pressKey(Operator.ADD);
+  // Calculator.pressKey(Numbers.FIVE);
+  // Calculator.pressKey(Operator.EQUAL);
+
+  // Calculator.pressKey(Operator.EQUAL);
+  // Calculator.pressKey(Operator.EQUAL);
+  // Calculator.pressKey(Operator.EQUAL);
+
+  // Calculator.pressKey(Numbers.ONE);
+  // Calculator.pressKey(Numbers.ZERO);
+
+  // Calculator.pressKey(Operator.EQUAL);
+  // Calculator.pressKey(Operator.DIVIDE);
+  // Calculator.pressKey(Numbers.THREE);
+
+  // Calculator.pressKey(Operator.EQUAL);
+
+  // Calculator.pressKey(SpecialKeys.CLEAR);
+
+  // Calculator.pressKey(Numbers.FOUR);
+  // Calculator.pressKey(Numbers.EIGHT);
+  // Calculator.pressKey(Operator.MULTIPLY);
+  // Calculator.pressKey(Numbers.ONE);
+  // Calculator.pressKey(Numbers.FIVE);
+  // Calculator.pressKey(Numbers.ZERO);
+  // Calculator.pressKey(Numbers.ZERO);
+  // Calculator.pressKey(Operator.PERCENTAGE);
+  // Calculator.pressKey(Operator.EQUAL);
+
+  // Calculator.pressKey(SpecialKeys.CLEAR);
+
+  // Calculator.pressKey(Numbers.ONE);
+  // Calculator.pressKey(Numbers.ZERO);
+  // Calculator.pressKey(SpecialKeys.AMBIGUITY);
+  // Calculator.pressKey(Operator.MULTIPLY);
+  // Calculator.pressKey(Numbers.TWO);
+  // Calculator.pressKey(Operator.EQUAL);
+  // Calculator.pressKey(Operator.MULTIPLY);
+  // Calculator.pressKey(Numbers.THREE);
+  // Calculator.pressKey(Operator.EQUAL);
+  // Calculator.pressKey(SpecialKeys.AMBIGUITY);
+  // Calculator.pressKey(Operator.ADD);
+  // Calculator.pressKey(Numbers.FIVE);
+  // Calculator.pressKey(Operator.EQUAL);
+  // Calculator.pressKey(Operator.MULTIPLY);
+  // Calculator.pressKey(Numbers.FIVE);
+  // Calculator.pressKey(Numbers.EIGHT);
+  // Calculator.pressKey(Numbers.THREE);
+  // Calculator.pressKey(Operator.EQUAL);
+  // Calculator.pressKey(Operator.ADD);
+  // Calculator.pressKey(Numbers.ZERO);
+  // Calculator.pressKey(SpecialKeys.DOT);
+  // Calculator.pressKey(Numbers.THREE);
+  // Calculator.pressKey(Operator.EQUAL);
+  // Calculator.pressKey(Operator.EQUAL);
+  // Calculator.pressKey(Operator.EQUAL);
+  // Calculator.pressKey(Operator.EQUAL);
+  // Calculator.pressKey(SpecialKeys.CLEAR);
+
+  // Calculator.pressKey(Numbers.FOUR);
+  // Calculator.pressKey(Numbers.NINE);
+  // Calculator.pressKey(SpecialKeys.DELETE);
+  // Calculator.pressKey(SpecialKeys.DELETE);
+  // Calculator.pressKey(SpecialKeys.DELETE);
+  // Calculator.pressKey(Numbers.FIVE);
+  // Calculator.pressKey(Numbers.EIGHT);
+  // Calculator.pressKey(Operator.ADD);
+  // Calculator.pressKey(Numbers.FIVE);
+  // Calculator.pressKey(Numbers.TWO);
+  // Calculator.pressKey(Operator.MULTIPLY);
+  // Calculator.pressKey(Numbers.TWO);
+  // Calculator.pressKey(Operator.EQUAL);
+
+  // Calculator.pressKey(SpecialKeys.CLEAR);
+  // Calculator.pressKey(Numbers.FOUR);
+  // Calculator.pressKey(Operator.MULTIPLY);
+  // Calculator.pressKey(Numbers.THREE);
+  // Calculator.pressKey(SpecialKeys.DELETE);
+  // Calculator.pressKey(SpecialKeys.DELETE);
+  // Calculator.pressKey(Operator.EQUAL);
+
+  // Calculator.pressKey(SpecialKeys.CLEAR);
+  // Calculator.pressKey(Numbers.ONE);
+  // Calculator.pressKey(Operator.ADD);
+  // Calculator.pressKey(Operator.MULTIPLY);
+  // Calculator.pressKey(Numbers.FIVE);
+  // Calculator.pressKey(Operator.EQUAL);
+
+  // Calculator.pressKey(SpecialKeys.CLEAR);
+  // Calculator.pressKey(Numbers.ONE);
+  // Calculator.pressKey(Numbers.ZERO);
+  // Calculator.pressKey(SpecialKeys.DOT);
+  // Calculator.pressKey(Numbers.FIVE);
+  // Calculator.pressKey(Operator.MULTIPLY);
+  // Calculator.pressKey(Numbers.THREE);
+  // Calculator.pressKey(Operator.EQUAL);
 })();

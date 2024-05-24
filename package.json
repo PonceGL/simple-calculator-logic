@@ -1,6 +1,6 @@
 {
   "name": "@poncegl/calculator",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.14",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -14,7 +14,7 @@
     "build": "yarn clean && tsc --project tsconfig.build.json",
     "dev": "nodemon example/index.ts",
     "start": "node dist/index.js",
-    "clean": "rm -rf ./dist",
+    "clean": "rm -rf ./dist && rm -rf ./packs && mkdir ./packs",
     "test": "jest --collect-coverage --no-cache --runInBand",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "lint:fix": "eslint --fix \"**/*.{js,ts,tsx}\""

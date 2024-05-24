@@ -32,7 +32,7 @@ export type TokenOperator =
 export type Token = TokenOperator | number;
 
 export enum SpecialKeys {
-  CLEAR = 'clear',
+  CLEAR = 'AC',
   DELETE = 'del',
   TRASH = 'TRASH',
   AMBIGUITY = '+/-',
@@ -40,18 +40,6 @@ export enum SpecialKeys {
 }
 
 export type KeyboardKeys = Numbers | Operator | SpecialKeys;
-
-export interface CalculatorType {
-  clear(): void;
-  init(a: number): void;
-  update(a: TokenOperator): void;
-  add(a: number, b: number): number;
-  subtract(a: number, b: number): number;
-  multiply(a: number, b: number): number;
-  divide(a: number, b: number): number;
-  ambiguity(a: number, b: number): number;
-  percentage(a: number): number;
-}
 
 export interface UpdateSreenValues {
   first: string;
@@ -72,3 +60,10 @@ export enum OrderOfOperations {
   'MULTIPLICATIONS_AND_DIVISIONS',
   'ADDITION_AND_SUBTRACTION',
 }
+
+export interface ObserverProps {
+  result: string;
+  history: string[];
+}
+
+export type ObserverFunction = (props: ObserverProps) => void;

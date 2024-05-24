@@ -6,7 +6,7 @@ class ResultsScreen implements ScreenType {
   public result: string;
 
   constructor() {
-    this.result = '0';
+    this.result = '';
   }
 
   public static getInstance(): ResultsScreen {
@@ -23,14 +23,32 @@ class ResultsScreen implements ScreenType {
 
   public update(value: string): void {
     const label = this.result === '0' ? `${value}` : `${this.result}${value}`;
-    this.result = label;
+    this.result = this.formatDecimalNumber(label);
   }
 
-  clearCurrentOperation(): void {
-    this.result = '0';
+  private formatDecimalNumber(label: string) {
+    if (this.isDecimal(label)) {
+      const numberOfDecimalPlaces = this.numberOfDecimalPlaces(label);
+      if (numberOfDecimalPlaces > 6 && numberOfDecimalPlaces < 20) {
+        return parseFloat(label).toFixed(10);
+      }
+    }
+    return label;
   }
 
-  clearHistory(): void {
+  private isDecimal(num: string) {
+    return parseFloat(num) % 1 != 0;
+  }
+
+  private numberOfDecimalPlaces(num: string) {
+    return num.slice(num.indexOf('.') + 1, num.length).length;
+  }
+
+  public clearCurrentOperation(): void {
+    this.result = '';
+  }
+
+  public clearHistory(): void {
     this.history = [];
   }
 }
