@@ -1,6 +1,6 @@
 {
   "name": "@poncegl/calculator",
-  "version": "1.0.0-beta.14",
+  "version": "1.0.0-beta.16",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.js",

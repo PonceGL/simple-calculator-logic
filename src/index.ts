@@ -1,9 +1,3 @@
-export {
-  Numbers,
-  Operator,
-  SpecialKeys,
-  ObserverProps,
-  KeyboardKeys,
-  ObserverFunction,
-} from './interfaces';
-export { Calculator } from './keyboard';
+export { formatNumber } from './utils';
+export { calculator as Calculator } from './calculator';
+export { KeyboardKeys, Numbers, Operator, SpecialKeys } from './types';

@@ -1,154 +1,196 @@
-import {
-  Operator,
-  Token,
-  TokenOperator,
-  ValuesAndOperator,
-} from './interfaces';
+import { Numbers, Operator, SpecialKeys } from './types';
 
 class Calculator {
-  public currentCalculation: number = 0;
-  public currentCalculations: ValuesAndOperator[] = [];
+  private _result: string = '';
+  private _history: string[] = [];
+  private currentOperation: string = '';
+  private lastResult: number | null = null;
+  private awaitingNextOperation: boolean = false;
+  private lastKey: Numbers | Operator | SpecialKeys | null = null;
 
-  public init(a: number): void {
-    this.currentCalculation = a;
+  get result(): string {
+    return this._result;
   }
 
-  public update(a: ValuesAndOperator): void {
+  get history(): string[] {
+    return this._history;
+  }
+
+  public pressKey(key: Numbers | Operator | SpecialKeys): void {
     if (
-      (typeof this.currentCalculations[this.currentCalculations.length - 1] ===
-        'number' &&
-        typeof a === 'number') ||
-      (typeof a === 'number' && a < 0)
+      (this.currentOperation === '' && key === Numbers.ZERO) ||
+      (this.currentOperation === '' &&
+        !Object.values(Numbers).includes(key as Numbers) &&
+        key !== SpecialKeys.DOT &&
+        key !== SpecialKeys.CLEAR_HISTORY)
     ) {
-      // this.currentCalculations.pop();
-      this.currentCalculations = [...this.currentCalculations.slice(0, -1)];
-    }
-
-    this.currentCalculations = [...this.currentCalculations, a];
-    if (this.includesOperator(this.currentCalculations)) {
-      this.calculate();
-    }
-  }
-  public clear(): void {
-    this.currentCalculation = 0;
-    this.currentCalculations = [];
-  }
-
-  private calculate() {
-    const lastValue =
-      this.currentCalculations[this.currentCalculations.length - 1];
-    const lastValueIsOperator = typeof lastValue === 'string';
-
-    if (
-      this.currentCalculations.length >= 3 ||
-      lastValue === Operator.PERCENTAGE ||
-      (this.currentCalculations.length >= 3 && !lastValueIsOperator)
-    ) {
-      const postfix = this.infixToPostfix(
-        this.currentCalculations.filter(token => token !== Operator.PERCENTAGE)
-      );
-      const result = this.evaluatePostfix(postfix);
-      if (lastValue === Operator.PERCENTAGE) {
-        this.currentCalculation = this.percentage(result);
-        return;
-      }
-      this.currentCalculation = result;
       return;
     }
-    this.currentCalculation = this.currentCalculations[0] as number;
-  }
 
-  private includesOperator(array: ValuesAndOperator[]): boolean {
-    return array.some(item =>
-      Object.values(Operator).includes(item as Operator)
-    );
-  }
+    if (this.currentOperation === '' && key === SpecialKeys.DOT) {
+      this.currentOperation = `${Numbers.ZERO}${SpecialKeys.DOT}`;
+      this._result = this.currentOperation;
+      this.lastKey = key;
+      return;
+    }
 
-  private infixToPostfix(tokens: ValuesAndOperator[]): Token[] {
-    const output: Token[] = [];
-    const operators: TokenOperator[] = [];
-    const precedence: { [key in TokenOperator]: number } = {
-      '+': 1,
-      '-': 1,
-      'x': 2,
-      '÷': 2,
-      '%': 3,
-    };
+    if (
+      this.lastKey === SpecialKeys.DOT &&
+      !Object.values(Numbers).includes(key as Numbers)
+    ) {
+      return;
+    }
 
-    for (const token of tokens) {
-      if (typeof token === 'number') {
-        output.push(token);
-      } else {
-        while (
-          operators.length > 0 &&
-          precedence[operators[operators.length - 1]] >= precedence[token]
+    if (key === SpecialKeys.DOT) {
+      const lastSegment = this.currentOperation.split(/[\+\-\*\/]/).pop();
+      if (lastSegment && lastSegment.includes(SpecialKeys.DOT)) {
+        return;
+      }
+    }
+
+    if (key === Operator.EQUAL) {
+      this.handleEqualOperator();
+    } else if (key === SpecialKeys.CLEAR) {
+      this.handleClearOperator();
+    } else if (key === SpecialKeys.CLEAR_HISTORY) {
+      this._history = [];
+    } else if (key === SpecialKeys.DELETE) {
+      if (this.currentOperation.length > 0) {
+        this.currentOperation = this.currentOperation.slice(0, -1);
+        this._result = this.currentOperation;
+      }
+    } else if (key === SpecialKeys.AMBIGUITY) {
+      this.handleAmbiguityOperator();
+    } else if (key === Operator.PERCENTAGE) {
+      this.currentOperation = `${this.currentOperation}${key}`;
+    } else {
+      if (this.lastResult !== null && this.awaitingNextOperation) {
+        if (this.isOperator(key)) {
+          this.handleOperators(key as Operator);
+          return;
+        } else if (
+          Object.values(Numbers).includes(key as Numbers) ||
+          key === SpecialKeys.DOT
         ) {
-          output.push(operators.pop() as TokenOperator);
-        }
-        operators.push(token as TokenOperator);
-      }
-    }
-
-    while (operators.length > 0) {
-      output.push(operators.pop() as TokenOperator);
-    }
-
-    return output;
-  }
-
-  private evaluatePostfix(tokens: Token[]): number {
-    const stack: number[] = [];
-
-    for (const token of tokens) {
-      if (typeof token === 'number') {
-        stack.push(token);
-      } else {
-        const right = stack.pop() as number;
-        const left = stack.pop() as number;
-        switch (token) {
-          case '+':
-            stack.push(this.add(left, right));
-            break;
-          case '-':
-            stack.push(this.subtract(left, right));
-            break;
-          case 'x':
-            stack.push(this.multiply(left, right));
-            break;
-          case '÷':
-            stack.push(this.divide(left, right));
-            break;
-          case '%':
-            break;
+          this.currentOperation = '';
+          this.lastResult = null;
+          this.awaitingNextOperation = false;
         }
       }
+
+      if (this.isOperator(key)) {
+        this.handleOperators(key as Operator);
+        return;
+      }
+      this.currentOperation += key;
+      this._result = this.currentOperation;
     }
 
-    return stack.pop() as number;
+    this.lastKey = key;
   }
 
-  private add(a: number, b: number): number {
-    return a + b;
+  private isOperator(key: Numbers | Operator | SpecialKeys): key is Operator {
+    return Object.values(Operator).includes(key as Operator);
   }
-  private subtract(a: number, b: number): number {
-    return a - b;
+
+  private handleOperators(key: Operator) {
+    const lastChar = this.currentOperation.slice(-1);
+    if (Object.values(Operator).includes(lastChar as Operator)) {
+      this.currentOperation = `${this.currentOperation.slice(0, -1)}${key}`;
+    } else {
+      this.currentOperation += key;
+    }
+
+    this._result = this.currentOperation;
+    this.awaitingNextOperation = false;
+    this.lastKey = key;
   }
-  private multiply(a: number, b: number): number {
-    return a * b;
+  private handleEqualOperator() {
+    const lastOperator = this.getLastOperator();
+    let evaluation: number;
+
+    if (lastOperator === Operator.PERCENTAGE) {
+      evaluation = this.handlePercentageOperator();
+      if (this.currentOperation !== evaluation.toString()) {
+        this._history.push(
+          `${this.currentOperation}${Operator.PERCENTAGE}=${evaluation}`
+        );
+      }
+    } else {
+      evaluation = this.evaluateOperation(this.currentOperation);
+      if (this.currentOperation !== evaluation.toString()) {
+        this._history.push(`${this.currentOperation}=${evaluation}`);
+      }
+    }
+    this.lastResult = evaluation;
+    this._result = `${evaluation}`;
+    this.currentOperation = `${evaluation}`;
+    this.awaitingNextOperation = true;
   }
-  private divide(a: number, b: number): number {
-    return a / b;
+
+  private handleClearOperator() {
+    this._result = '';
+    this.currentOperation = '';
+    this.lastResult = null;
+    this.awaitingNextOperation = false;
   }
-  private percentage(a: number): number {
-    return a / 100;
+
+  private handlePercentageOperator() {
+    const lastOperatorBefore = this.getLastOperator();
+    if (lastOperatorBefore === Operator.PERCENTAGE) {
+      this.currentOperation = this.currentOperation.slice(0, -1);
+    }
+    const lastOperator = this.getLastOperator();
+    const evaluation = eval(this.currentOperation);
+    const operationDivided = this.currentOperation.split(
+      new RegExp(`[${Object.values(Operator).join('\\')}]`)
+    );
+
+    const firstNumber = operationDivided[0];
+    const lastNumber = operationDivided[1];
+
+    if (lastOperator === Operator.ADD || lastOperator === Operator.SUBTRACT) {
+      const p = (parseFloat(lastNumber) / 100) * parseFloat(firstNumber);
+      return this.evaluateOperation(`${firstNumber}${lastOperator}${p}`);
+    }
+    return evaluation / 100;
   }
-  public ambiguity(a: number): number {
-    const isPositive = Math.sign(a) === 1;
-    const isZero = Math.sign(a) === 0 || Math.sign(a) === -0;
-    if (isZero) return 0; // TODO: check if this is correct
-    if (isPositive) return -Math.abs(a);
-    return Math.abs(a);
+
+  private handleAmbiguityOperator() {
+    const result = parseFloat(this.result);
+    if (!isNaN(result)) {
+      const newNumber = result !== 0 ? -result : result;
+      this._result = newNumber.toString();
+      this.currentOperation = this._result;
+      this.lastResult = newNumber;
+    }
+  }
+
+  private getLastOperator() {
+    const lastOperatorIndex = this.currentOperation
+      .split('')
+      .reverse()
+      .findIndex(char => Object.values(Operator).includes(char as Operator));
+    const lastOperator =
+      lastOperatorIndex !== -1
+        ? this.currentOperation[
+            this.currentOperation.length - 1 - lastOperatorIndex
+          ]
+        : null;
+
+    return lastOperator;
+  }
+
+  private evaluateOperation(operation: string) {
+    try {
+      return eval(operation) as number;
+    } catch (error) {
+      this._result = 'Error de formato';
+      this.currentOperation = '';
+      this.lastResult = null;
+      throw new Error(JSON.stringify(error));
+    }
   }
 }
 
-export { Calculator };
+export const calculator = new Calculator();

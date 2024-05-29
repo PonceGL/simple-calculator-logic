@@ -20,7 +20,7 @@ module.exports = {
     'prettier/prettier': [
       'error',
       {
-        quoteProps: 'consistent',
+        quoteProps: 'preserve',
         singleQuote: true,
         tabWidth: 2,
         trailingComma: 'es5',
